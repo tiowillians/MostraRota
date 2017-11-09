@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MostraRota.Views.VerRotas"
+             Title="Ver Rotas">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="location.png" Command="{Binding VerCommand}" />
+        <ToolbarItem Icon="delete.png" Command="{Binding ApagarCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <!-- lista mostrando as rotas cadastradas -->
+        <ListView x:Name="listview_Rotas" ItemsSource="{Binding Rotas}" Margin="5, 2, 5, 2"
+                  HasUnevenRows="true" ItemTapped="Rota_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding DtHrIni}"
+                                   FontSize="Small" TextColor="Black"
+                                   VerticalTextAlignment="Center"  HorizontalTextAlignment="Start"/>
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding DtHrFim}"
+                                   FontSize="Small" TextColor="Black"
+                                   VerticalTextAlignment="Center"  HorizontalTextAlignment="End"/>
+                            <Label Grid.Row="1" Grid.Column="0" Text="{Binding Distancia}"
+                                   FontSize="Small" TextColor="Blue"
+                                   VerticalTextAlignment="Center"  HorizontalTextAlignment="Center"/>
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Pontos}"
+                                   FontSize="Small" TextColor="Blue"
+                                   VerticalTextAlignment="Center"  HorizontalTextAlignment="Center"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

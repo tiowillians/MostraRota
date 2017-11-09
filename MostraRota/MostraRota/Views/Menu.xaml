@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MostraRota.Views.Menu" Title="Menu" >
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout BackgroundColor="#2e7fcd" HeightRequest="140">
+                <Image Source="{Binding Foto}" Margin="15, 15, 0, 0" 
+                       HorizontalOptions="StartAndExpand" WidthRequest="60" HeightRequest="60" />
+                <Label Text="{Binding Nome}" TextColor="White" FontAttributes="
+					   Bold" FontSize="30" Margin="15, 0, 0, 0" />
+            </StackLayout>
+            <TableView Intent="Data">
+                <TableView.Root>
+                    <TableSection>
+                        <TextCell Text="Configurações" TextColor="Black"
+							Command="{Binding MenuTapped}"  CommandParameter="config"></TextCell>
+                        <TextCell Text="Sincronizar Rotas" TextColor="Black"
+							Command="{Binding MenuTapped}" CommandParameter="sinc"></TextCell>
+                        <TextCell Text="Visualizar Rotas" TextColor="Black"
+							Command="{Binding MenuTapped}" CommandParameter="ver"></TextCell>
+                        <TextCell Text="Fazer novo Login" TextColor="Black"
+							Command="{Binding MenuTapped}" CommandParameter="login"></TextCell>
+                        <TextCell Text="Sobre o App" TextColor="Black"
+							Command="{Binding MenuTapped}" CommandParameter="sobre"></TextCell>
+                        <TextCell Text="Sair" TextColor="Black"
+							Command="{Binding MenuTapped}" CommandParameter="sair"></TextCell>
+                    </TableSection>
+                </TableView.Root>
+            </TableView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

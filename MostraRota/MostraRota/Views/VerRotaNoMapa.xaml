@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:MostraRota.CustomControls"
+             x:Class="MostraRota.Views.VerRotaNoMapa"
+             Title="Visualização da Rota">
+    <ContentPage.Content>
+        <!-- mapa para mostrar percurso percorrido -->
+        <custom:CustomMap x:Name="mapVisualizacao" IsShowingUser="False"
+                          MapType="Street" HasScrollEnabled="True" HasZoomEnabled="True" />
+    </ContentPage.Content>
+</ContentPage>

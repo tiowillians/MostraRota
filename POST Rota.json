@@ -1,0 +1,38 @@
+URL: http://willians-pc/MostraRotaWS/MostraRotaService.svc/GetUser/tiowillians@gmail.com
+
+ERRO: BAD REQUEST
+
+{
+	"EmailUsuario":"willians.santos@gmail.com",
+	"Id":3,
+	"DtHrIni":"2017-11-08T17:12:38.98873",
+	"DtHrFim":"2017-11-08T17:13:04.189489",
+	"Distancia":8726,
+	"Coordenadas":
+	[
+		{
+			"Id":0,
+			"EmailUsr":"willians.santos@gmail.com",
+			"IdRota":3,
+			"Latitude":51.1762,
+			"Longitude":4.60313845,
+			"DataHora":"2017-11-08T17:12:40.164792"
+		},
+		{
+			"Id":0,
+			"EmailUsr":"willians.santos@gmail.com",
+			"IdRota":3,
+			"Latitude":51.1762,
+			"Longitude":4.60313845,
+			"DataHora":"2017-11-08T17:12:40.186656"
+		},
+		{
+			"Id":0,
+			"EmailUsr":"willians.santos@gmail.com",
+			"IdRota":3,
+			"Latitude":51.1679,
+			"Longitude":4.5672884,
+			"DataHora":"2017-11-08T17:12:42.069719"
+		}
+	]
+}

@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:custom="clr-namespace:MostraRota.CustomControls"
+             x:Class="MostraRota.Views.PaginaInicial"
+             Title="Mostra Rota">
+    <ContentPage.Content>
+        <Grid>
+            <!-- mostrar mapa e distância percorrida -->
+            <Grid Grid.Row="0" Grid.Column="0" Padding="5" RowSpacing="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- mostrar distância total percorrida -->
+                <Label Grid.Row="0" Grid.Column="0" Text="{Binding DistTotal, StringFormat='{0:F0} m'}" FontSize="Small"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"
+                       TextColor="Black"/>
+
+                <!-- botão para iniciar/parar serviço de localização -->
+                <Button Grid.Row="0" Grid.Column="1" Text="{Binding IniciarParar}" Clicked="BtnIniciarParar_Clicked"/>
+
+                <!-- mapa para mostrar posição corrente e percurso percorrido -->
+                <custom:CustomMap x:Name="mapVisualizacao" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                  MapType="Street" HasScrollEnabled="True" HasZoomEnabled="True"
+                                  IsShowingUser="True" />
+            </Grid>
+            
+            <!-- mostrar popups com ações a serem confirmadas pelo usuário -->
+            <Grid Grid.Row="0" Grid.Column="0" IsVisible="{Binding MostraPopup}" >
+                <Grid.RowDefinitions>
+                    <!-- fundo -->
+                    <RowDefinition Height="*" />
+                    <!-- ícone -->
+                    <RowDefinition Height="2*" />
+                    <!-- mensagem -->
+                    <RowDefinition Height="*" />
+                    <!-- botões -->
+                    <RowDefinition Height="*" />
+                    <!-- fundo -->
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <!-- fundo -->
+                    <ColumnDefinition Width="*"/>
+                    <!-- espaço -->
+                    <ColumnDefinition Width="10"/>
+                    <!-- dados -->
+                    <ColumnDefinition Width="2*"/>
+                    <!-- espaço -->
+                    <ColumnDefinition Width="10"/>
+                    <!-- dados -->
+                    <ColumnDefinition Width="2*"/>
+                    <!-- espaço -->
+                    <ColumnDefinition Width="10"/>
+                    <!-- fundo -->
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Fundo externo do popup -->
+                <BoxView Grid.Row="0" Grid.RowSpan="5" Grid.Column="0" Grid.ColumnSpan="7"
+                         BackgroundColor="#000000" Opacity="0.5" >
+                </BoxView>
+
+                <!-- Fundo interno do popup -->
+                <BoxView Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="5"
+                         BackgroundColor="White" />
+
+                <!-- ícone -->
+                <Image Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="3" Source="salvarbd.png"
+                       Aspect="AspectFit" HorizontalOptions="Fill" VerticalOptions="Fill" />
+
+                <!-- mensagem -->
+                <Label Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="3" Text="{Binding Pergunta}"
+                       FontAttributes="Bold" HorizontalTextAlignment="Center" FontSize="Large"
+                       VerticalTextAlignment="Center" TextColor="Black"/>
+
+                <!-- botões -->
+                <Button Grid.Row="3" Grid.Column="2" Text="Sim"
+                        VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                        Clicked="BtnSim_Clicked" HeightRequest="50" BackgroundColor="Green" />
+                
+                <Button Grid.Row="3" Grid.Column="4" Text="Não"
+                        VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                        Clicked="BtnNao_Clicked" HeightRequest="50" BackgroundColor="Red" />
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
