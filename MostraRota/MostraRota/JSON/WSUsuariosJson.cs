@@ -37,10 +37,12 @@ namespace MostraRota.JSON
             if (App.usrCorrente == null)
                 return false;
 
-            WSUsuariosJson usr = new WSUsuariosJson();
-            usr.Email = App.usrCorrente.Email;
-            usr.Nome = App.usrCorrente.Nome;
-            usr.Login = App.usrCorrente.Login;
+            WSUsuariosJson usr = new WSUsuariosJson
+            {
+                Email = App.usrCorrente.Email,
+                Nome = App.usrCorrente.Nome,
+                Login = App.usrCorrente.Login
+            };
 
             WSUsuariosJson antigo = await BuscarDadosUsuario();
 
@@ -48,7 +50,10 @@ namespace MostraRota.JSON
             string resposta = await WSMostraRota.UpdateData("User", usr, (antigo == null));
 
             // verifica resposta do servidor
-            return (string.IsNullOrEmpty(resposta) == false);
+            if (string.IsNullOrEmpty(resposta))
+                return false;
+            else
+                return (resposta.ToLower().CompareTo("true") == 0);
         }
     }
 }

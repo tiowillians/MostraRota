@@ -57,8 +57,25 @@ namespace MostraRota.BDLocal
             }
         }
 
+        static public List<UsuariosBD> GetUsuarios()
+        {
+            try
+            {
+                string strQuery = "SELECT * FROM [usuarios]";
+                List<UsuariosBD> usuarios = App.BDLocal.DBConnection.Query<UsuariosBD>(strQuery);
+                return usuarios;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         static public async Task<UsuariosBD> InsereAtualizaUsuario(User usr, int tipoLogin)
         {
+            if (usr == null)
+                return null;
+
             try
             {
                 // verifica se usuário já foi cadastrado
@@ -118,6 +135,30 @@ namespace MostraRota.BDLocal
             }
             catch (Exception)
             {
+            }
+        }
+
+        // apaga usuário da base de dados
+        static public bool ApagaUsuario(string eMail)
+        {
+            try
+            {
+                // apaga todas as rotas do usuário
+                if (RotasBD.ApagaRotas(eMail) == false)
+                    return false;
+
+                // apaga usuário informado, se ele não for o usuário corrente
+                if (eMail.CompareTo(App.usrCorrente.Email) != 0)
+                {
+                    string query = "DELETE FROM [usuarios] WHERE [email] = '" + eMail + "'";
+                    App.BDLocal.DBConnection.Execute(query);
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

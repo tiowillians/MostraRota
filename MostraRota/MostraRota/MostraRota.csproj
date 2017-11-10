@@ -61,6 +61,7 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\PaginaInicialViewModel.cs" />
+    <Compile Include="ViewModels\SincronizarViewModel.cs" />
     <Compile Include="ViewModels\VerRotasViewModel.cs" />
     <Compile Include="Views\Configuracoes.xaml.cs">
       <DependentUpon>Configuracoes.xaml</DependentUpon>

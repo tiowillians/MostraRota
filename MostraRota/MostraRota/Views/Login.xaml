@@ -17,7 +17,7 @@
 
             <Label Text="Conexão com Web Service" HorizontalTextAlignment="Center"
                    VerticalTextAlignment="End" TextColor="Black" HeightRequest="40"
-                   HorizontalOptions="Fill" FontSize="Medium"/>
+                   HorizontalOptions="Fill" FontSize="Small"/>
             <Entry HorizontalOptions="Fill" HorizontalTextAlignment="Start"
                    Text="{Binding URL}" FontSize="Small" />
         </StackLayout>

@@ -112,8 +112,7 @@ namespace MostraRota.Views
 
         public async void OnAuthCompleted(object sender, AuthenticatorCompletedEventArgs e)
         {
-            var authenticator = sender as OAuth2Authenticator;
-            if (authenticator != null)
+            if (sender is OAuth2Authenticator authenticator)
             {
                 authenticator.Completed -= OnAuthCompleted;
                 authenticator.Error -= OnAuthError;
@@ -183,9 +182,11 @@ namespace MostraRota.Views
 
             var obj = JObject.Parse(response.GetResponseText());
 
-            User user = new User();
-            user.Id = obj["id"].ToString().Replace("\"", "");
-            user.Name = obj["name"].ToString().Replace("\"", "");
+            User user = new User
+            {
+                Id = obj["id"].ToString().Replace("\"", ""),
+                Name = obj["name"].ToString().Replace("\"", "")
+            };
             user.Picture = "https://graph.facebook.com/" + user.Id + "/picture";
 
             // email não pode ser vazio
@@ -199,8 +200,7 @@ namespace MostraRota.Views
 
         public void OnAuthError(object sender, AuthenticatorErrorEventArgs e)
         {
-            var authenticator = sender as OAuth2Authenticator;
-            if (authenticator != null)
+            if (sender is OAuth2Authenticator authenticator)
             {
                 authenticator.Completed -= OnAuthCompleted;
                 authenticator.Error -= OnAuthError;

@@ -1,38 +1,82 @@
 URL: http://willians-pc/MostraRotaWS/MostraRotaService.svc/GetUser/tiowillians@gmail.com
+IP: 192.168.40.27  192.168.56.1
+http://192.168.40.27/MostraRotaWS/MostraRotaService.svc
 
-ERRO: BAD REQUEST
+POST: USUARIO
+URL: http://192.168.40.27/MostraRotaWS/MostraRotaService.svc/User
+
+{
+	"Email":"teste@gmail.com",
+	"Nome":"Teste",
+	"Login":1
+}
+
+POST: ROTA
+URL: http://192.168.40.27/MostraRotaWS/MostraRotaService.svc/Rota
 
 {
 	"EmailUsuario":"willians.santos@gmail.com",
-	"Id":3,
-	"DtHrIni":"2017-11-08T17:12:38.98873",
-	"DtHrFim":"2017-11-08T17:13:04.189489",
-	"Distancia":8726,
+	"NumRota":4,
+	"DtHrIni":"2017-11-10T11:10:29.131961",
+	"DtHrFim":"2017-11-10T11:10:42.879773",
+	"Distancia":4919,
 	"Coordenadas":
 	[
 		{
-			"Id":0,
 			"EmailUsr":"willians.santos@gmail.com",
-			"IdRota":3,
-			"Latitude":51.1762,
-			"Longitude":4.60313845,
-			"DataHora":"2017-11-08T17:12:40.164792"
+			"NumRota":4,
+			"Seq":1,
+			"Latitude":"51,1762",
+			"Longitude":"4,60313833333333",
+			"DataHora":"2017-11-10T11:10:30.242205"
 		},
 		{
-			"Id":0,
 			"EmailUsr":"willians.santos@gmail.com",
-			"IdRota":3,
-			"Latitude":51.1762,
-			"Longitude":4.60313845,
-			"DataHora":"2017-11-08T17:12:40.186656"
+			"NumRota":4,
+			"Seq":2,
+			"Latitude":"51,1679",
+			"Longitude":"4,56728833333333",
+			"DataHora":"2017-11-10T11:10:32.00599"
 		},
 		{
-			"Id":0,
 			"EmailUsr":"willians.santos@gmail.com",
-			"IdRota":3,
-			"Latitude":51.1679,
-			"Longitude":4.5672884,
-			"DataHora":"2017-11-08T17:12:42.069719"
+			"NumRota":4,
+			"Seq":3,
+			"Latitude":"51,1685",
+			"Longitude":"4,56803833333333",
+			"DataHora":"2017-11-10T11:10:34.002778"
+		},
+		{
+			"EmailUsr":"willians.santos@gmail.com",
+			"NumRota":4,
+			"Seq":4,
+			"Latitude":"51,1734",
+			"Longitude":"4,56773833333333",
+			"DataHora":"2017-11-10T11:10:35.991691"
+		},
+		{
+			"EmailUsr":"willians.santos@gmail.com",
+			"NumRota":4,
+			"Seq":5,
+			"Latitude":"51,1773983333333",
+			"Longitude":"4,58216",
+			"DataHora":"2017-11-10T11:10:38.012687"
+		},
+		{
+			"EmailUsr":"willians.santos@gmail.com",
+			"NumRota":4,
+			"Seq":6,
+			"Latitude":"51,1764",
+			"Longitude":"4,58279",
+			"DataHora":"2017-11-10T11:10:40.019412"
+		},
+		{
+			"EmailUsr":"willians.santos@gmail.com",
+			"NumRota":4,
+			"Seq":7,
+			"Latitude":"51,1754",
+			"Longitude":"4,58821",
+			"DataHora":"2017-11-10T11:10:41.996279"
 		}
 	]
 }

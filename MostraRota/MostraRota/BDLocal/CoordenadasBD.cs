@@ -1,7 +1,9 @@
 ﻿using MostraRota.CustomControls;
+using MostraRota.JSON;
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 namespace MostraRota.BDLocal
 {
     [Table("coordenadas")]
-    public class CoordenadasBD
+    public class CoordenadasBD : IComparable
     {
         // identificação do registro
         [PrimaryKey, AutoIncrement, Column("id")]
@@ -18,6 +20,10 @@ namespace MostraRota.BDLocal
         // identificação da rota
         [Column("id_rota")]
         public int Rota { get; set; }
+
+        // sequência da coordenada dentro da rota
+        [Column("seq")]
+        public int Seq { get; set; }
 
         [Column("latitude")]
         public double Latitude { get; set; }
@@ -36,6 +42,9 @@ namespace MostraRota.BDLocal
                 string strQuery = "SELECT * FROM [coordenadas] where [id_rota] = " + rotaId.ToString();
                 List<CoordenadasBD> coords = App.BDLocal.DBConnection.Query<CoordenadasBD>(strQuery);
 
+                // ordenar coordenadas pela sequência
+                coords.Sort();
+
                 return coords;
             }
             catch (Exception)
@@ -45,21 +54,58 @@ namespace MostraRota.BDLocal
         }
 
         //
-        // insere coordenada
+        // insere lista de coordenadas na base de dados
         //
         static public bool InsereCoordenadas(int idRota, List<MyPosition>lista)
         {
             try
             {
+                int seq = 0;
                 CoordenadasBD nova;
                 foreach(MyPosition pos in lista)
                 {
-                    nova = new CoordenadasBD();
-                    nova.Id = 0;
-                    nova.Rota = idRota;
-                    nova.Latitude = pos.Latitude;
-                    nova.Longitude = pos.Longitude;
-                    nova.DataHora = pos.Horario;
+                    nova = new CoordenadasBD
+                    {
+                        Id = 0,
+                        Rota = idRota,
+                        Seq = ++seq,
+                        Latitude = pos.Latitude,
+                        Longitude = pos.Longitude,
+                        DataHora = pos.Horario
+                    };
+
+                    // insere novo registro
+                    App.BDLocal.DBConnection.Insert(nova);
+                }
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        //
+        // importar lista de coordenadas do Web Service para a base de dados
+        //
+        static public bool ImportarCoordenadas(int idRota, List<WSCoordenadasJson> lista)
+        {
+            try
+            {
+                int seq = 0;
+                CoordenadasBD nova;
+                foreach (WSCoordenadasJson coord in lista)
+                {
+                    nova = new CoordenadasBD
+                    {
+                        Id = 0,
+                        Rota = idRota,  // NÃO usar IdRota do objeto 'coord'
+                        Seq = ++seq,
+                        Latitude = GetDouble(coord.Latitute),
+                        Longitude = GetDouble(coord.Longitude),
+                        DataHora = coord.DataHora
+                    };
 
                     // insere novo registro
                     App.BDLocal.DBConnection.Insert(nova);
@@ -87,6 +133,33 @@ namespace MostraRota.BDLocal
             {
                 return false;
             }
+        }
+
+        // comparação entre dois objetos. Usados para ordenar lista
+        public int CompareTo(object obj)
+        {
+            CoordenadasBD c = obj as CoordenadasBD;
+            return this.Seq - c.Seq;
+        }
+
+        // converte string para double, considerando diferentes separadores decimal
+        private static double GetDouble(string s)
+        {
+            double d;
+
+            NumberFormatInfo formatinfo = new NumberFormatInfo();
+
+            formatinfo.NumberDecimalSeparator = ".";
+
+            if (double.TryParse(s, NumberStyles.Float, formatinfo, out d))
+                return d;
+
+            formatinfo.NumberDecimalSeparator = ",";
+
+            if (double.TryParse(s, NumberStyles.Float, formatinfo, out d))
+                return d;
+
+            return 0;
         }
     }
 }

@@ -26,6 +26,12 @@
 
                 <!-- Conexão só via Wi-Fi -->
                 <RowDefinition Height="Auto"/>
+
+                <!-- linha em branco -->
+                <RowDefinition Height="20"/>
+
+                <!-- Conexão só via Wi-Fi -->
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <!-- marcador -->
@@ -80,6 +86,10 @@
                     HorizontalOptions="Start" TextColor="Black" BackgroundColor="White"/>
                 <Switch x:Name="wifi_switch" HorizontalOptions="Start" IsToggled="{Binding WifiOn}"/>
             </StackLayout>
+
+            <Button Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2"
+                    Text="Apagar BD Local" Clicked="OnLimpaBDLocal_Clicked"
+                    BackgroundColor="DarkRed" TextColor="White" HeightRequest="45" />
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -6,8 +6,8 @@ namespace MostraRota.JSON
 {
     public class WSRotaResumoJson
     {
-        [JsonProperty("Id")]
-        public int Id { get; set; }
+        [JsonProperty("NumRota")]
+        public int NumRota { get; set; }
 
         [JsonProperty("DtHrIni")]
         public DateTime DtHrIni { get; set; }

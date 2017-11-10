@@ -32,6 +32,7 @@ namespace MostraRota.Views
             this.BindingContext = viewModel;
 
             ColetandoDadosGPS = false;
+            ultPosicao = null;
         }
 
         private void BtnIniciarParar_Clicked(object sender, EventArgs e)
@@ -106,9 +107,23 @@ namespace MostraRota.Views
         private void PositionChanged(object sender, PositionEventArgs e)
         {
             var position = e.Position;
+
+            // verifica se posição realmente mudou
+            if (ultPosicao != null)
+            {
+                if ((ultPosicao.Latitude == position.Latitude) &&
+                    (ultPosicao.Longitude == position.Longitude))
+                    return;
+
+            }
+
             MyPosition pos = new MyPosition(position.Latitude, position.Longitude, DateTime.Now);
-            var list = new List<MyPosition>(mapVisualizacao.RouteCoordinates);
-            list.Add(pos);
+
+            // cria uma nova lista a partir da lista já existente e adiciona novo elemento "pos"
+            var list = new List<MyPosition>(mapVisualizacao.RouteCoordinates)
+            {
+                pos
+            };
             mapVisualizacao.RouteCoordinates = list;
 
             mapVisualizacao.MoveToRegion(

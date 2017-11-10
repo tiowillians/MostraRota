@@ -8,7 +8,7 @@
             <Image Source="sinc.png"/>
             
             <!-- indicador de atividade em segundo plano -->
-            <ActivityIndicator Color="DarkBlue" HeightRequest="25"/>
+            <ActivityIndicator IsRunning="{Binding IsBusy}" Color="DarkBlue" HeightRequest="25"/>
             
             <Button Text="SINCRONIZAR" Clicked="OnSincronizar_Clicked"
                     BackgroundColor="#3c5a98" TextColor="White" HeightRequest="45" />

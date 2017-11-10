@@ -3,24 +3,32 @@ using System;
 
 namespace MostraRota.JSON
 {
-    public class WSCoordenadasJson
+    public class WSCoordenadasJson : IComparable
     {
-        [JsonProperty("Id")]
-        public int Id { get; set; }
-
         [JsonProperty("EmailUsr")]
         public string EmailUsr { get; set; }
 
-        [JsonProperty("IdRota")]
+        [JsonProperty("NumRota")]
         public int IdRota { get; set; }
 
+        [JsonProperty("Seq")]
+        public int Seq { get; set; }
+
         [JsonProperty("Latitude")]
-        public float Latitute { get; set; }
+        public string Latitute { get; set; }
 
         [JsonProperty("Longitude")]
-        public float Longitude { get; set; }
+        public string Longitude { get; set; }
 
         [JsonProperty("DataHora")]
         public DateTime DataHora { get; set; }
+
+        // comparação entre objetos. Usado para ordenação
+        public int CompareTo(object obj)
+        {
+            // ordenar por sequência
+            WSCoordenadasJson c = obj as WSCoordenadasJson;
+            return this.Seq - c.Seq;
+        }
     }
 }

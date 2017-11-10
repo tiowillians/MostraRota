@@ -112,5 +112,31 @@ namespace MostraRota.BDLocal
                 return false;
             }
         }
+
+        // apaga todas as rotas de um determinado usuário
+        static public bool ApagaRotas(string eMail)
+        {
+            try
+            {
+                List<RotasBD> listRotas = GetRotas(eMail);
+
+                foreach(RotasBD rota in listRotas)
+                {
+                    // apaga todas as coordenadas da rota
+                    if (CoordenadasBD.ApagaCoordenadas(rota.Id) == false)
+                        return false;
+                }
+
+                // apaga as rotas
+                string query = "DELETE FROM [rotas] WHERE [email_usr] = '" + eMail + "'";
+                App.BDLocal.DBConnection.Execute(query);
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

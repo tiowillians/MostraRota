@@ -1,6 +1,7 @@
 ﻿using MostraRota.BDLocal;
 using MostraRota.Interfaces;
 using MostraRota.JSON;
+using MostraRota.ViewModels;
 using MostraRota.WebServices;
 using Newtonsoft.Json;
 using System;
@@ -13,14 +14,18 @@ namespace MostraRota.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Sincronizar : ContentPage
     {
+        private SincronizarViewModel viewModel;
+
         public Sincronizar()
         {
             InitializeComponent();
+            viewModel = new SincronizarViewModel();
+            this.BindingContext = viewModel;
         }
 
         public async void OnSincronizar_Clicked(object sender, EventArgs e)
         {
-            if (IsBusy)
+            if (viewModel.IsBusy)
                 return;
 
             // verificar se o e-mail do usuário existe
@@ -54,7 +59,7 @@ namespace MostraRota.Views
             int rErros = 0;
 
             // indica processamento em segundo plano
-            IsBusy = true;
+            viewModel.IsBusy = true;
 
             // lista de rotas cadastradas localmente
             List<RotasBD> rotasLocal = RotasBD.GetRotas(App.usrCorrente.Email);
@@ -79,12 +84,13 @@ namespace MostraRota.Views
                 if (listResumo.Count > 0)
                 {
                     // para cada rota, verificar se ela já está cadastrada na base de dados local
+                    int novaRotaId;
                     foreach (WSRotaResumoJson resumo in listResumo)
                     {
                         if (RotaExisteNoBDLocal(rotasLocal, resumo) == false)
                         {
                             // obter dados completo da rota via Web Service
-                            request = "Rota?email=" + App.usrCorrente.Email + "&rota=" + resumo.Id.ToString();
+                            request = "Rota?email=" + App.usrCorrente.Email + "&rota=" + resumo.NumRota.ToString();
                             resposta = await WSMostraRota.GetStringAsync(request);
 
                             // verificar se Web Service retornou dados válidos
@@ -93,11 +99,28 @@ namespace MostraRota.Views
                                 // desserializar dados da rota
                                 rota = JsonConvert.DeserializeObject<WSRotasJson>(resposta);
 
-                                // inserir rota na base de dados local
-                                RotasBD.InsereRota(App.usrCorrente.Email, rota.DtHrIni,
-                                                   rota.DtHrFim, rota.Distancia);
+                                // não sincronizar rotas que não tenham pelo menos duas coordenadas
+                                if ((rota.Coordenadas == null) ||
+                                    (rota.Coordenadas.Count < 2))
+                                        continue;
 
-                                ++recebidas;
+                                // ordenar coordenadas pela sequência
+                                rota.Coordenadas.Sort();
+
+                                // inserir rota na base de dados local
+                                novaRotaId = RotasBD.InsereRota(App.usrCorrente.Email, rota.DtHrIni,
+                                                                rota.DtHrFim, rota.Distancia);
+
+                                if (novaRotaId > 0)
+                                {
+
+                                    // insere lista de coordenadas da rota na base de dados local
+                                    CoordenadasBD.ImportarCoordenadas(novaRotaId, rota.Coordenadas);
+
+                                    ++recebidas;
+                                }
+                                else
+                                    ++rErros;
                             }
                             else
                                 ++rErros;
@@ -116,27 +139,35 @@ namespace MostraRota.Views
             {
                 if (RotaExisteNoWS(listResumo, rotaBD) == false)
                 {
-                    rota = new WSRotasJson();
-                    rota.Id = rotaBD.Id;
-                    rota.EmailUsuario = App.usrCorrente.Email;
-                    rota.DtHrIni = rotaBD.DtHrInicial;
-                    rota.DtHrFim = rotaBD.DtHrFinal;
-                    rota.Distancia = rotaBD.Distancia;
+                    rota = new WSRotasJson
+                    {
+                        NumRota = rotaBD.Id,
+                        EmailUsuario = App.usrCorrente.Email,
+                        DtHrIni = rotaBD.DtHrInicial,
+                        DtHrFim = rotaBD.DtHrFinal,
+                        Distancia = rotaBD.Distancia
+                    };
 
                     //obtem coordenadas da rota
                     coords = CoordenadasBD.GetCoordenadas(rotaBD.Id);
+
+                    // não sincronizar rotas que não tenham pelo menos duas coordenadas
+                    if ((coords == null) || (coords.Count < 2))
+                        continue;
 
                     // monta lista de coordenadas
                     listaCoord = new List<WSCoordenadasJson>();
                     foreach (CoordenadasBD c in coords)
                     {
-                        cJson = new WSCoordenadasJson();
-                        cJson.Id = 0;
-                        cJson.DataHora = c.DataHora;
-                        cJson.EmailUsr = App.usrCorrente.Email;
-                        cJson.Latitute = (float)c.Latitude;
-                        cJson.Longitude = (float)c.Longitude;
-                        cJson.IdRota = rotaBD.Id;
+                        cJson = new WSCoordenadasJson
+                        {
+                            EmailUsr = App.usrCorrente.Email,
+                            IdRota = rotaBD.Id,
+                            Seq = c.Seq,
+                            DataHora = c.DataHora,
+                            Latitute = c.Latitude.ToString(),
+                            Longitude = c.Longitude.ToString()
+                        };
 
                         listaCoord.Add(cJson);
                     }
@@ -144,7 +175,7 @@ namespace MostraRota.Views
                     rota.Coordenadas = listaCoord;
 
                     resposta = await WSMostraRota.UpdateData("Rota", rota, true);
-                    if (resposta == null)
+                    if ((resposta == null) || (resposta.ToLower().CompareTo("true") != 0))
                         ++tErros;
                     else
                         ++transmidas;
@@ -152,7 +183,7 @@ namespace MostraRota.Views
             }
 
             // fim do processamento em segundo plano
-            IsBusy = false;
+            viewModel.IsBusy = false;
 
             // mostra mensagem mostrando totais de rotas sincronizadas
             string msg = "Rotas recebidas: " + recebidas.ToString();
@@ -170,7 +201,8 @@ namespace MostraRota.Views
 
             foreach (RotasBD rota in rotasLocal)
             {
-                if (rota.DtHrInicial == resumoRota.DtHrIni)
+                // compara rotas pela data/hora de início
+                if (rota.DtHrInicial.ToString("G").CompareTo(resumoRota.DtHrIni.ToString("G")) == 0)
                     return true;
             }
 
@@ -184,7 +216,7 @@ namespace MostraRota.Views
 
             foreach (WSRotaResumoJson rota in listResumo)
             {
-                if (rota.DtHrIni == rotaBD.DtHrInicial)
+                if (rota.DtHrIni.ToString("G").CompareTo(rotaBD.DtHrInicial.ToString("G")) == 0)
                     return true;
             }
 

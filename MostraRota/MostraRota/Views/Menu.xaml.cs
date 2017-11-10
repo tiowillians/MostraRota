@@ -9,7 +9,7 @@ namespace MostraRota.Views
     {
         public MenuViewModel viewModel = null;
 
-        public Menu(MasterDetailPrincipal principal)
+        public Menu()
         {
             InitializeComponent();
             viewModel = new MenuViewModel(this);

@@ -16,7 +16,7 @@ namespace MostraRota.Views
         {
             navegacao = new NavigationPage(new PaginaInicial());
             Detail = navegacao;
-            Master = new Menu(this);
+            Master = new Menu();
         }
 
         public async Task PushAsync(Page pagina)

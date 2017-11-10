@@ -9,8 +9,8 @@ namespace MostraRota.JSON
         [JsonProperty("EmailUsuario")]
         public string EmailUsuario { get; set; }
 
-        [JsonProperty("Id")]
-        public int Id { get; set; }
+        [JsonProperty("NumRota")]
+        public int NumRota { get; set; }
 
         [JsonProperty("DtHrIni")]
         public DateTime DtHrIni { get; set; }
