@@ -16,8 +16,8 @@ namespace MostraRota
         // Para fazer login via Google, configure em https://console.developers.google.com/
         public const string iOSGoogleClientId = "<ID do Cliente OAuth para iOS cadastrado na Google>";
 
-        public const string AndroidGoogleClientId = "660052940829-k140n6d2gkuorovugfcc6hmvcdh54rka.apps.googleusercontent.com";
-        public const string AndroidGoogleClientSecret = "Kn6omdG9NaGz5Kee8vns7Dgy";
+        public const string AndroidGoogleClientId = "<ID do Cliente OAuth para Android cadastrado na Google>";
+        public const string AndroidGoogleClientSecret = "<Chave secreta do cliente>";
 
         // Esses valores não precisam serem alterados
         // lista dos Google Scope: https://developers.google.com/identity/protocols/googlescopes
@@ -28,7 +28,7 @@ namespace MostraRota
 
         // Inverter os Client IDs para iOS/Android, adicionando ":/oauth2redirect" no final
         public const string iOSGoogleRedirectUrl = "<iOSGoogleClientId inverso para iOS>:/oauth2redirect";
-        public const string AndroidGoogleRedirectUrl = "com.googleusercontent.apps.660052940829-k140n6d2gkuorovugfcc6hmvcdh54rka:/oauth2redirect";
+        public const string AndroidGoogleRedirectUrl = "<AndroidGoogleClientId inverso para iOS>:/oauth2redirect";
         // ==================================================================
 
         // ==================================================================
@@ -36,7 +36,7 @@ namespace MostraRota
 
         // Para fazer login via Facebook, configure em https://developers.facebook.com
         public const string iOSFacebookClientId = "<ID do Cliente OAuth para iOS cadastrado no Facebook>";
-        public const string AndroidFacebookClientId = "1985582381657434";
+        public const string AndroidFacebookClientId = "<Código do App no Facebook>";
 
         // Esses valores não precisam serem alterados
         public const string FacebookScope = "";
