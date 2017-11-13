@@ -10,6 +10,6 @@ namespace MostraRota.JSON
         public int NumRota { get; set; }
 
         [JsonProperty("DtHrIni")]
-        public DateTime DtHrIni { get; set; }
+        public string DtHrIni { get; set; }
     }
 }

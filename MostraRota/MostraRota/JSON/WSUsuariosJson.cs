@@ -46,8 +46,19 @@ namespace MostraRota.JSON
 
             WSUsuariosJson antigo = await BuscarDadosUsuario();
 
-            // envia dados para servidor, via WebService (PUT ou POST)
-            string resposta = await WSMostraRota.UpdateData("User", usr, (antigo == null));
+            string resposta = null;
+            if (antigo != null)
+            {
+                // envia dados para servidor, via WebService (PUT ou POST),
+                // se dados do usuário tiver sido alterado
+                if ((antigo.Nome.CompareTo(App.usrCorrente.Nome) != 0) ||
+                    (antigo.Login != App.usrCorrente.Login))
+                    resposta = await WSMostraRota.UpdateData("User", usr, false);
+                else
+                    return true;
+            }
+            else
+                resposta = await WSMostraRota.UpdateData("User", usr, true);
 
             // verifica resposta do servidor
             if (string.IsNullOrEmpty(resposta))

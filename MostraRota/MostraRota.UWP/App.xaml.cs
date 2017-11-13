@@ -51,7 +51,7 @@ namespace MostraRota.UWP
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 Xamarin.Forms.Forms.Init(e);
-                Xamarin.FormsMaps.Init("<colocar aqui a chave de utilização de mapas do Bing>");
+                Xamarin.FormsMaps.Init("kQY8ZeAqhOreZcwRwXEm~V82f71zkHMDF8dveawAzag~AgjoyVWkjBySYF5k2aLK0BXUy_6Ry_pk6813EH0CsxcaPK2Isv34VuKCbua8PMRE");
 
                 // FALTA INICIAR XAMARIN.AUTH
 

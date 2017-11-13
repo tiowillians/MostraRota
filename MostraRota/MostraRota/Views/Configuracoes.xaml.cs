@@ -33,14 +33,6 @@ namespace MostraRota.Views
             App.usrCorrente.WSUrl = viewModel.URL;
             App.usrCorrente.Grava = (grava_switch.IsToggled ? 1 : 0);
             App.usrCorrente.WiFi = (wifi_switch.IsToggled ? 1 : 0);
-
-            // envia dados do usuário corrente para o servidor
-            // caso tenha ocorrido erro no login
-            if (App.usrNaoSincronizado)
-            {
-                WSUsuariosJson.UpdateData();
-                App.usrNaoSincronizado = false;
-            }
         }
 
         public async void OnLimpaBDLocal_Clicked(object sender, EventArgs e)

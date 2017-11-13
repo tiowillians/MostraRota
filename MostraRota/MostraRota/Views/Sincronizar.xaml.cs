@@ -42,6 +42,13 @@ namespace MostraRota.Views
                 return;
             }
 
+            // verificar se existe conexão com Internet
+            if (App.ExisteConexaoInternet() == false)
+            {
+                DependencyService.Get<IMessage>().ShortAlert("Sem conexão com a Internet.");
+                return;
+            }
+
             // verificar se tem sinal de Wi-Fi
             if (App.usrCorrente.WiFi != 0)
             {
@@ -60,6 +67,15 @@ namespace MostraRota.Views
 
             // indica processamento em segundo plano
             viewModel.IsBusy = true;
+
+            // cadastra ou atualiza dados do usuário no servidor
+            bool resp = await WSUsuariosJson.UpdateData();
+            if(resp == false)
+            {
+                DependencyService.Get<IMessage>().ShortAlert("Dados do usuário não puderam ser atualizados no servidor!.");
+                viewModel.IsBusy = false;
+                return;
+            }
 
             // lista de rotas cadastradas localmente
             List<RotasBD> rotasLocal = RotasBD.GetRotas(App.usrCorrente.Email);
@@ -108,8 +124,8 @@ namespace MostraRota.Views
                                 rota.Coordenadas.Sort();
 
                                 // inserir rota na base de dados local
-                                novaRotaId = RotasBD.InsereRota(App.usrCorrente.Email, rota.DtHrIni,
-                                                                rota.DtHrFim, rota.Distancia);
+                                novaRotaId = RotasBD.InsereRota(App.usrCorrente.Email, DateTime.Parse(rota.DtHrIni),
+                                                                DateTime.Parse(rota.DtHrFim), rota.Distancia);
 
                                 if (novaRotaId > 0)
                                 {
@@ -143,8 +159,8 @@ namespace MostraRota.Views
                     {
                         NumRota = rotaBD.Id,
                         EmailUsuario = App.usrCorrente.Email,
-                        DtHrIni = rotaBD.DtHrInicial,
-                        DtHrFim = rotaBD.DtHrFinal,
+                        DtHrIni = rotaBD.DtHrInicial.ToString("G"),
+                        DtHrFim = rotaBD.DtHrFinal.ToString("G"),
                         Distancia = rotaBD.Distancia
                     };
 
@@ -164,7 +180,7 @@ namespace MostraRota.Views
                             EmailUsr = App.usrCorrente.Email,
                             IdRota = rotaBD.Id,
                             Seq = c.Seq,
-                            DataHora = c.DataHora,
+                            DataHora = c.DataHora.ToString("G"),
                             Latitute = c.Latitude.ToString(),
                             Longitude = c.Longitude.ToString()
                         };
@@ -202,7 +218,7 @@ namespace MostraRota.Views
             foreach (RotasBD rota in rotasLocal)
             {
                 // compara rotas pela data/hora de início
-                if (rota.DtHrInicial.ToString("G").CompareTo(resumoRota.DtHrIni.ToString("G")) == 0)
+                if (rota.DtHrInicial.ToString("G").CompareTo(resumoRota.DtHrIni) == 0)
                     return true;
             }
 
@@ -214,9 +230,10 @@ namespace MostraRota.Views
             if (listResumo == null)
                 return false;
 
+            string strRota = rotaBD.DtHrInicial.ToString("G");
             foreach (WSRotaResumoJson rota in listResumo)
             {
-                if (rota.DtHrIni.ToString("G").CompareTo(rotaBD.DtHrInicial.ToString("G")) == 0)
+                if (rota.DtHrIni.CompareTo(strRota) == 0)
                     return true;
             }
 

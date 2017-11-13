@@ -13,10 +13,10 @@ namespace MostraRota.JSON
         public int NumRota { get; set; }
 
         [JsonProperty("DtHrIni")]
-        public DateTime DtHrIni { get; set; }
+        public string DtHrIni { get; set; }
 
         [JsonProperty("DtHrFim")]
-        public DateTime DtHrFim { get; set; }
+        public string DtHrFim { get; set; }
 
         [JsonProperty("Distancia")]
         public int Distancia { get; set; }

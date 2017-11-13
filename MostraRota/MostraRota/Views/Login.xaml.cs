@@ -140,13 +140,6 @@ namespace MostraRota.Views
                 // salva dados do usuário na base de dados local
                 App.usrCorrente = await UsuariosBD.InsereAtualizaUsuario(user, loginFrom);
 
-                if (string.IsNullOrEmpty(viewModel.URL) == false)
-                    App.usrCorrente.WSUrl = viewModel.URL;
-
-                // atualiza dados do usuário no servidor via Web Service
-                bool ret = await WSUsuariosJson.UpdateData();
-                App.usrNaoSincronizado = !ret;
-
                 // mostra página inicial
                 await App.MostrarPaginaInicial();
             }

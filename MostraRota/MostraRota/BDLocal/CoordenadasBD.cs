@@ -104,7 +104,7 @@ namespace MostraRota.BDLocal
                         Seq = ++seq,
                         Latitude = GetDouble(coord.Latitute),
                         Longitude = GetDouble(coord.Longitude),
-                        DataHora = coord.DataHora
+                        DataHora = DateTime.Parse(coord.DataHora)
                     };
 
                     // insere novo registro

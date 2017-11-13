@@ -10,7 +10,7 @@ namespace MostraRota.Droid.Implementations
     [IntentFilter(
         new[] { Intent.ActionView },
         Categories = new[] { Intent.CategoryDefault, Intent.CategoryBrowsable },
-        DataSchemes = new[] { "<Chave ID reversa cadastrada no arquivo Constants.cs>" },
+        DataSchemes = new[] { "com.googleusercontent.apps.660052940829-k140n6d2gkuorovugfcc6hmvcdh54rka" },
         DataPath = "/oauth2redirect")]
     public class CustomUrlSchemeInterceptorActivity : Activity
     {

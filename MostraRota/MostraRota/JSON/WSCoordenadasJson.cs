@@ -21,7 +21,7 @@ namespace MostraRota.JSON
         public string Longitude { get; set; }
 
         [JsonProperty("DataHora")]
-        public DateTime DataHora { get; set; }
+        public string DataHora { get; set; }
 
         // comparação entre objetos. Usado para ordenação
         public int CompareTo(object obj)

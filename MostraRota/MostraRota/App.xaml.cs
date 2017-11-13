@@ -3,9 +3,7 @@ using MostraRota.Interfaces;
 using MostraRota.Views;
 using Plugin.Connectivity;
 using Plugin.Connectivity.Abstractions;
-using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.Auth;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -19,7 +17,6 @@ namespace MostraRota
 
         // dados do usuário que fez o login
         public static UsuariosBD usrCorrente = null;
-        public static bool usrNaoSincronizado = false;
 
         public App()
         {
